@@ -18,7 +18,7 @@ small_font = pygame.font.Font(None, 36)
 #Tela 
 WIDTH, HEIGHT = 1440, 810
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Top-Down Shooter")
+pygame.display.set_caption("Navin")
 
 #Lista naturais
 naturaisLista=['spritesGT/Naturais/zero.png','spritesGT/Naturais/um.webp','spritesGT/Naturais/dois.png',
