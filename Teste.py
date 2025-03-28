@@ -4,10 +4,11 @@ import random
 from moduloConfig import *
 from moduloPlayer import Player
 from moduloBarraDeVida import barraDeVida
-from moduloNAVIN import NAVIN
+from moduloNAVINimg import NAVIN
 from moduloEnemy import Enemy
 from moduloProjetil import Projetil
 from moduloArmaAtiva import armaAtiva
+from moduloNavim import Navim
 
 #Comando pygame (NAO TOQUE)
 pygame.init()
@@ -19,6 +20,7 @@ pygame.mixer.music.load("soundtrack/SoundtrackJogo.mpga")
 pygame.mixer.music.play(loops=-1)
 
 dano = 3000
+firstNavim = Navim(dano, navinLista)
 
 
 #tela de gameover (sera completamente alterado quando o sprite de tela de gameover for inserido)
@@ -123,24 +125,24 @@ def main():
         
 
         #Spawn de enemies
-        if random.randint(1, 30000) == 1: 
-            enemies.append(Enemy())
+        # if random.randint(1, 30000) == 1: 
+        #     enemies.append(Enemy())
 
-        #Movimento de enemies
-        for enemy in enemies[:]:
-            enemy.move()
-            if enemy.rect.top > HEIGHT:
-                enemies.remove(enemy)
-                score += 1 
+        # #Movimento de enemies
+        # for enemy in enemies[:]:
+        #     enemy.move()
+        #     if enemy.rect.top > HEIGHT:
+        #         enemies.remove(enemy)
+        #         score += 1 
 
-        #Colisão de enemies com bullet
-        for bullet in bullets[:]:
-            for enemy in enemies[:]:
-                if bullet.rect.colliderect(enemy.rect):
-                    bullets.remove(bullet)
-                    enemies.remove(enemy)
-                    score += 5  
-                    break
+        # #Colisão de enemies com bullet
+        # for bullet in bullets[:]:
+        #     for enemy in enemies[:]:
+        #         if bullet.rect.colliderect(enemy.rect):
+        #             bullets.remove(bullet)
+        #             enemies.remove(enemy)
+        #             score += 5  
+        #             break
 
         #Spawn nivan (NÃO TOQUE NESSA LIST)
         navins = []
@@ -204,6 +206,7 @@ def main():
         pygame.display.flip()
         numeroNavin+=3 #é 3 pq tem 4 imagens de navin
         clock.tick(30)
+    
 
     #NAO TOQUE
     pygame.quit()
