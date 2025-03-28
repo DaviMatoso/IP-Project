@@ -79,6 +79,7 @@ def main():
     arma2 = armaAtiva(0.0, 30, 10, 10, 1)
     arma3 = armaAtiva(2, 10, 70, 500, 1)
     arma4 = armaAtiva(0.5,20, 15, 70, 5)
+    inventarioArmas = [arma1]
 
     armaAtual = arma1
 
@@ -98,12 +99,14 @@ def main():
         if keys[pygame.K_0]:
             armaAtual = arma1
         elif keys[pygame.K_9]:
-            armaAtual = arma2
+            if arma2 in inventarioArmas:
+                armaAtual = arma2
         elif keys[pygame.K_8]:
-            armaAtual = arma3
+            if arma3 in inventarioArmas:
+                armaAtual = arma3
         elif keys[pygame.K_7]:
-            armaAtual = arma4
-        
+            if arma4 in inventarioArmas:
+                armaAtual = arma4
 
         #movimento do player
         dx = keys[pygame.K_d] - keys[pygame.K_a]
