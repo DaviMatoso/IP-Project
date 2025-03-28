@@ -8,6 +8,8 @@ from moduloEnemy import Enemy
 from moduloBala import Bullet
 from moduloProjetil import Projetil
 from moduloArmaAtiva import armaAtiva
+from moduloColisão import ColisaoMapa
+
 
 #Comando pygame (NAO TOQUE)
 pygame.init()
@@ -51,6 +53,9 @@ enemy_speed = 2
 #projetil settings
 projetil_size = 20
 projetil_speed = 12
+
+
+
 
 
 #tela de gameover (sera completamente alterado quando o sprite de tela de gameover for inserido)
@@ -104,6 +109,14 @@ def main():
     score = 0
     numeroNavin=0
     running = True
+    lista = [(pygame.Rect(0, 0, 150, 810)), 
+    (pygame.Rect(150, 0, 1140, 292)),
+    (pygame.Rect(1290, 0, 150, 810)),
+    (pygame.Rect(150, 744, 495, 292)),
+    (pygame.Rect(150, 1101, 165, 66)),
+    (pygame.Rect(795, 744, 495, 66)),
+    (pygame.Rect(-1, -1, 1440, 1)),
+    (pygame.Rect(0, 811, 1440, 1))]
 
     armaAtual = armaAtiva(0.5, 20, 21)
 
@@ -117,7 +130,7 @@ def main():
         keys = pygame.key.get_pressed()
         dx = keys[pygame.K_d] - keys[pygame.K_a]
         dy = keys[pygame.K_s] - keys[pygame.K_w]
-        player.move(dx, dy, player_speed)
+        player.move(dx, dy, player_speed, lista)
 
 
         #Spawn de bullet
@@ -166,8 +179,19 @@ def main():
                 projet.move()
                 if projet.rect.top > HEIGHT:
                     proj.remove(projet)
+                    
         elif dano<=0:   #apaga com os projeteis qnd navin morre
             proj=[]
+            lista = [(pygame.Rect(0, 0, 150, 810)), 
+                    (pygame.Rect(150, 0, 495, 292)),
+                    (pygame.Rect(795, 0, 495, 292)),
+                    (pygame.Rect(1290, 0, 150, 810)),
+                    (pygame.Rect(150, 744, 495, 292)),
+                    (pygame.Rect(150, 1101, 165, 66)),
+                    (pygame.Rect(795, 744, 495, 66)),
+                    (pygame.Rect(-1, -1, 1440, 1)),
+                    (pygame.Rect(0, 811, 1440, 1))
+                    ]
 
         #Tick de animacao do navin
         if numeroNavin==30:
@@ -182,7 +206,7 @@ def main():
         for bullet in bullets:
             for navin in navins:
                 if bullet.rect.colliderect(navin.rect):
-                    dano -= 100
+                    dano -= 1000
                     bullets.remove(bullet)
 
         #Desenho player, fundo, bullet
@@ -198,6 +222,7 @@ def main():
             screen.blit(projec.image, projec.rect)
         for vidas in vida:
             pygame.draw.rect(screen, RED, vidas.rect)
+        ColisaoMapa.printar(lista, player)
 
         #Score (ADD VIDA, ARMA, VIDA NAVIN)
         font = pygame.font.Font(None, 36)
