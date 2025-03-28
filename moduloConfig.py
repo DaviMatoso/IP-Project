@@ -18,6 +18,10 @@ naturaisLista=['spritesGT/Naturais/zero.png','spritesGT/Naturais/um.webp','sprit
                'spritesGT/Naturais/seis.png','spritesGT/Naturais/sete.png','spritesGT/Naturais/oito.png',
                'spritesGT/Naturais/nove.png']
 
+racionaisLista=['spritesGT/racionais/01.png', 'spritesGT/racionais/02.png', 'spritesGT/racionais/03.png',
+                'spritesGT/racionais/04.png','spritesGT/racionais/05.png','spritesGT/racionais/06.png',
+                'spritesGT/racionais/07.png','spritesGT/racionais/08.png','spritesGT/racionais/09.png']
+
    # Animação Navin
 navinLista=['spritesGT/navin/navin_idle.png','spritesGT/navin/navin_idle2.png','spritesGT/navin/navin_idle3.png','spritesGT/navin/navin_idle4.png']
 

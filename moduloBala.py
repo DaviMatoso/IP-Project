@@ -1,7 +1,7 @@
 import pygame
 import math
 import random
-from moduloConfig import naturaisLista
+from moduloConfig import naturaisLista, racionaisLista
 
 #bullet class
 class Bullet:
@@ -15,7 +15,7 @@ class Bullet:
         if arma=='arma3':
             self.image = pygame.image.load("spritesGT/1 pixelado.webp")  # Carregar imagem do jogador
         if arma=='arma4':
-            self.image = pygame.image.load("spritesGT/1 pixelado.webp")  # Carregar imagem do jogador
+            self.image = pygame.image.load('spritesGT/racionais/ponto.png')  # Carregar imagem do jogador
         self.image = pygame.transform.scale(self.image, (bullet_size, bullet_size))  # Ajustar o tamanho da imagem
         self.rect = self.image.get_rect(center=(x, y))  # Usar o retângulo da imagem
 
