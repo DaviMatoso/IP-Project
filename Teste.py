@@ -66,7 +66,7 @@ def main():
 
     clock = pygame.time.Clock()
     player = Player(player_size2, player_size, WIDTH, HEIGHT)
-    dano = 3000     #vida do navin
+    dano =10000    #vida do navin
     #Lista de objetos moviveis gerados
     bullets = []
     enemies = []
@@ -76,11 +76,12 @@ def main():
     running = True
 
     arma1 = armaAtiva(0.5, 20, 21, 100, 1)
-    arma2 = armaAtiva(0.0, 30, 10, 10, 1)
+    arma2 = armaAtiva(0.0, 30, 15, 10, 1)
     arma3 = armaAtiva(2, 10, 70, 500, 1)
     arma4 = armaAtiva(0.5,20, 15, 70, 5)
 
     armaAtual = arma1
+    armaParaImagem='arma1'
 
 
     while running:      #LOOP DE RODAR
@@ -97,13 +98,16 @@ def main():
         #troca de armas
         if keys[pygame.K_0]:
             armaAtual = arma1
+            armaParaImagem='arma1'
         elif keys[pygame.K_9]:
             armaAtual = arma2
+            armaParaImagem='arma2'
         elif keys[pygame.K_8]:
             armaAtual = arma3
+            armaParaImagem='arma3'
         elif keys[pygame.K_7]:
             armaAtual = arma4
-        
+            armaParaImagem='arma4'
 
         #movimento do player
         dx = keys[pygame.K_d] - keys[pygame.K_a]
@@ -113,7 +117,7 @@ def main():
 
         #Spawn de bullet
         keys = pygame.key.get_pressed()
-        var = armaAtual.shoot(keys, player.rect.centerx, player.rect.top, bullets)
+        var = armaAtual.shoot(keys, player.rect.centerx, player.rect.top, bullets, armaParaImagem)
         if var is not None:
             bullets.append(var)
 
