@@ -145,37 +145,47 @@ def main():
         #             break
 
         #Spawn nivan (NÃO TOQUE NESSA LIST)
-        navins = []
-        vida =[]
-        if dano > 0:
-            navins.append(NAVIN(numeroNavin%3, navinLista))
-            vida.append(barraDeVida(3000-dano))
-            #Spawn projetil
-            if random.randint(1, 3) == 1:
-                proj.append(Projetil(naturaisLista, WIDTH))
+        navins = firstNavim.Navins
+        vida = firstNavim.vida
 
-            #Movimento de projetil
-            for projet in proj[:]:
-                projet.move()
-                if projet.rect.top > HEIGHT:
-                    proj.remove(projet)
-        elif dano<=0:   #apaga com os projeteis qnd navin morre
-            proj=[]
+        firstNavim.animacaoNavim()
+        
+        firstNavim.diminuirVida()
+        firstNavim.projeteisNavim()
+        firstNavim.projeteisMove()
+
+
+        # navins = []
+        # vida =[]
+        # if dano > 0:
+        #     navins.append(NAVIN(numeroNavin%3, navinLista))
+        #     vida.append(barraDeVida(3000-dano))
+        #     #Spawn projetil
+        #     if random.randint(1, 3) == 1:
+        #         proj.append(Projetil(naturaisLista, WIDTH))
+
+        #     #Movimento de projetil
+        #     for projet in proj[:]:
+        #         projet.move()
+        #         if projet.rect.top > HEIGHT:
+        #             proj.remove(projet)
+        # elif dano<=0:   #apaga com os projeteis qnd navin morre
+        #     proj=[]
 
         #Tick de animacao do navin
-        if numeroNavin==30:
-            numeroNavin=1
-        elif numeroNavin==31:
-            numeroNavin=2
-        elif numeroNavin==32:
-            numeroNavin=0
+        # if numeroNavin==30:
+        #     numeroNavin=1
+        # elif numeroNavin==31:
+        #     numeroNavin=2
+        # elif numeroNavin==32:
+        #     numeroNavin=0
 
 
         #Colisão bullet com navin
         for bullet in bullets:
             for navin in navins:
                 if bullet.rect.colliderect(navin.rect):
-                    dano -= bullet.danoBala
+                    firstNavim.danoNavim(bullet.danoBala)
                     bullets.remove(bullet)
 
         #Desenho player, fundo, bullet
@@ -204,7 +214,7 @@ def main():
 
         #Comando pygame (NAO TOQUE)
         pygame.display.flip()
-        numeroNavin+=3 #é 3 pq tem 4 imagens de navin
+        # numeroNavin+=3s #é 3 pq tem 4 imagens de navin
         clock.tick(30)
     
 

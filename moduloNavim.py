@@ -10,7 +10,7 @@ class Navim():
     def __init__(self, dano, listaFrames):
         self.dead = False
         self.dano = dano
-        self.listaFrames =listaFrames
+        self.listaFrames = listaFrames
         self.frameAtual = 1
         self.vida = []
         self.Navins = []
@@ -18,10 +18,8 @@ class Navim():
 
 
     def animacaoNavim(self):
-        
         if self.dano > 0:
-            self.Navins.append(NAVIN(self.frameAtual%3, self.listaFrames))
-
+            self.Navins.append(NAVIN((self.frameAtual)%3, self.listaFrames))
             self.frameAtual += 3
 
             if self.frameAtual==30:
