@@ -97,13 +97,13 @@ def main():
 
 
         #troca de armas
-        if keys[pygame.K_0]:
+        if keys[pygame.K_KP_0]:
             armaAtual = arma1
-        elif keys[pygame.K_9]:
+        elif keys[pygame.K_KP_9]:
             armaAtual = arma2
-        elif keys[pygame.K_8]:
+        elif keys[pygame.K_KP_8]:
             armaAtual = arma3
-        elif keys[pygame.K_7]:
+        elif keys[pygame.K_KP_7]:
             armaAtual = arma4
         
 
