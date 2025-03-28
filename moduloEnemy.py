@@ -7,4 +7,4 @@ class Enemy:
         self.rect = pygame.Rect(random.randint(0, WIDTH - enemy_size), 0, enemy_size, enemy_size)
 
     def move(self, enemy_speed):
-        self.rect.y += enemy_speed #emeny cai pro inferno
+        self.rect.y += enemy_speed #enemy cai pro inferno

@@ -8,6 +8,7 @@ from moduloNAVIN import NAVIN
 from moduloEnemy import Enemy
 from moduloProjetil import Projetil
 from moduloArmaAtiva import armaAtiva
+from moduloColetaveis import Coletavel
 
 #Comando pygame (NAO TOQUE)
 pygame.init()
@@ -18,7 +19,7 @@ small_font = pygame.font.Font(None, 36)
 pygame.mixer.music.load("soundtrack/SoundtrackJogo.mpga")
 pygame.mixer.music.play(loops=-1)
 
-dano = 3000
+vidaNavin = 3000
 
 
 #tela de gameover (sera completamente alterado quando o sprite de tela de gameover for inserido)
@@ -66,7 +67,7 @@ def main():
 
     clock = pygame.time.Clock()
     player = Player(player_size2, player_size, WIDTH, HEIGHT)
-    dano = 3000     #vida do navin
+    vidaNavin = 300     #vida do navin
     #Lista de objetos moviveis gerados
     bullets = []
     enemies = []
@@ -74,39 +75,40 @@ def main():
     score = 0
     numeroNavin=0
     running = True
+    coletou=False
 
-    arma1 = armaAtiva(0.5, 20, 21, 100, 1)
-    arma2 = armaAtiva(0.0, 30, 10, 10, 1)
-    arma3 = armaAtiva(2, 10, 70, 500, 1)
-    arma4 = armaAtiva(0.5,20, 15, 70, 5)
-    inventarioArmas = [arma1]
+    pistola = armaAtiva(0.5, 20, 21, 100, 1)
+    metralhadora = armaAtiva(0.0, 30, 10, 10, 1)
+    bazuca = armaAtiva(2, 10, 70, 500, 1)
+    shotgun = armaAtiva(0.5,20, 15, 70, 5)
+    inventarioArmas = [pistola]
 
-    armaAtual = arma1
+    armaAtual = pistola
 
 
     while running:      #LOOP DE RODAR
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
-    
-        
 
+
+        coletavel = Coletavel()
         #Teclas de movi do player
         keys = pygame.key.get_pressed()
 
 
         #troca de armas
         if keys[pygame.K_0]:
-            armaAtual = arma1
+            armaAtual = pistola
         elif keys[pygame.K_9]:
-            if arma2 in inventarioArmas:
-                armaAtual = arma2
+            if metralhadora in inventarioArmas:
+                armaAtual = metralhadora
         elif keys[pygame.K_8]:
-            if arma3 in inventarioArmas:
-                armaAtual = arma3
+            if bazuca in inventarioArmas:
+                armaAtual = bazuca
         elif keys[pygame.K_7]:
-            if arma4 in inventarioArmas:
-                armaAtual = arma4
+            if shotgun in inventarioArmas:
+                armaAtual = shotgun
 
         #movimento do player
         dx = keys[pygame.K_d] - keys[pygame.K_a]
@@ -148,9 +150,9 @@ def main():
         #Spawn nivan (NÃO TOQUE NESSA LIST)
         navins = []
         vida =[]
-        if dano > 0:
+        if vidaNavin > 0:
             navins.append(NAVIN(numeroNavin%3, navinLista))
-            vida.append(barraDeVida(3000-dano))
+            vida.append(barraDeVida(3000-vidaNavin))
             #Spawn projetil
             if random.randint(1, 3) == 1:
                 proj.append(Projetil(naturaisLista, WIDTH))
@@ -160,8 +162,9 @@ def main():
                 projet.move()
                 if projet.rect.top > HEIGHT:
                     proj.remove(projet)
-        elif dano<=0:   #apaga com os projeteis qnd navin morre
+        elif vidaNavin<=0:   #apaga com os projeteis qnd navin morre
             proj=[]
+
 
         #Tick de animacao do navin
         if numeroNavin==30:
@@ -176,7 +179,7 @@ def main():
         for bullet in bullets:
             for navin in navins:
                 if bullet.rect.colliderect(navin.rect):
-                    dano -= bullet.danoBala
+                    vidaNavin -= bullet.danoBala
                     bullets.remove(bullet)
 
         #Desenho player, fundo, bullet
@@ -192,6 +195,10 @@ def main():
             screen.blit(projec.image, projec.rect)
         for vidas in vida:
             pygame.draw.rect(screen, RED, vidas.rect)
+        if vidaNavin<=0 and coletavel.rect.colliderect(player)==False and coletou == False:
+            pygame.draw.rect(screen, (255,0,0), coletavel.rect)
+        if coletavel.rect.colliderect(player):
+            coletou = True
 
         #Score (ADD VIDA, ARMA, VIDA NAVIN)
         font = pygame.font.Font(None, 36)
