@@ -8,7 +8,7 @@ from moduloNAVIN import NAVIN
 from moduloEnemy import Enemy
 from moduloProjetil import Projetil
 from moduloArmaAtiva import armaAtiva
-from moduloColetaveis import Coletavel
+from moduloColetaveis import *
 
 #Comando pygame (NAO TOQUE)
 pygame.init()
@@ -16,6 +16,7 @@ pygame.init()
 font = pygame.font.Font(None, 74)
 small_font = pygame.font.Font(None, 36)
 
+# tocar a soundtrack do jogo
 pygame.mixer.music.load("soundtrack/SoundtrackJogo.mpga")
 pygame.mixer.music.play(loops=-1)
 
@@ -67,7 +68,7 @@ def main():
 
     clock = pygame.time.Clock()
     player = Player(player_size2, player_size, WIDTH, HEIGHT)
-    vidaNavin = 300     #vida do navin
+    vidaNavin = 3000     #vida do navin
     #Lista de objetos moviveis gerados
     bullets = []
     enemies = []
@@ -75,7 +76,6 @@ def main():
     score = 0
     numeroNavin=0
     running = True
-    coletou=False
 
     pistola = armaAtiva(0.5, 20, 21, 100, 1)
     metralhadora = armaAtiva(0.0, 30, 10, 10, 1)
@@ -84,6 +84,7 @@ def main():
     inventarioArmas = [pistola]
 
     armaAtual = pistola
+    proxArma = Metralhadora()
 
 
     while running:      #LOOP DE RODAR
@@ -92,7 +93,6 @@ def main():
                 running = False
 
 
-        coletavel = Coletavel()
         #Teclas de movi do player
         keys = pygame.key.get_pressed()
 
@@ -195,10 +195,9 @@ def main():
             screen.blit(projec.image, projec.rect)
         for vidas in vida:
             pygame.draw.rect(screen, RED, vidas.rect)
-        if vidaNavin<=0 and coletavel.rect.colliderect(player)==False and coletou == False:
-            pygame.draw.rect(screen, (255,0,0), coletavel.rect)
-        if coletavel.rect.colliderect(player):
-            coletou = True
+        if vidaNavin <= 0:
+            proxArma.coleta(player, inventarioArmas, metralhadora)
+
 
         #Score (ADD VIDA, ARMA, VIDA NAVIN)
         font = pygame.font.Font(None, 36)
