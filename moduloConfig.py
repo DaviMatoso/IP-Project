@@ -7,7 +7,7 @@ font = pygame.font.Font(None, 74)
 small_font = pygame.font.Font(None, 36)
 
 pygame.mixer.music.load("soundtrack/SoundtrackJogo.mpga")
-pygame.mixer.music.play(loops=-1)
+# pygame.mixer.music.play(loops=-1)
 
 #Tela 
 WIDTH, HEIGHT = 1440, 810
