@@ -7,6 +7,7 @@ from moduloNAVIN import NAVIN
 from moduloEnemy import Enemy
 from moduloBala import Bullet
 from moduloProjetil import Projetil
+from moduloDesenhoVida import healthBar
 
 #Comando pygame (NAO TOQUE)
 pygame.init()
@@ -103,6 +104,9 @@ def main():
     score = 0
     numeroNavin=0
     running = True
+    healthbar=healthBar()
+    cooldownFixo = 1
+    countCooldown = 0
 
 
     while running:      #LOOP DE RODAR
@@ -119,6 +123,12 @@ def main():
 
         #Spawn de bullet
         if keys[pygame.K_SPACE]:
+            if countCooldown > cooldownFixo:
+                countCooldown = 0
+            else:
+                countCooldown += 1
+
+            if countCooldown == 0:
                 bullets.append(Bullet(player.rect.centerx, player.rect.top, bullet_size))
 
         #Movimento de bullet
@@ -154,7 +164,7 @@ def main():
             navins.append(NAVIN(numeroNavin%3, navinLista))
             vida.append(barraDeVida(3000-dano))
             #Spawn projetil
-            if random.randint(1, 3) == 1:
+            if random.randint(1, 4) == 1:
                 proj.append(Projetil(naturaisLista, WIDTH))
 
             #Movimento de projetil
@@ -164,6 +174,7 @@ def main():
                     proj.remove(projet)
         elif dano<=0:   #apaga com os projeteis qnd navin morre
             proj=[]
+            healthbar=None
 
         #Tick de animacao do navin
         if numeroNavin==30:
@@ -178,7 +189,7 @@ def main():
         for bullet in bullets[:]:
             for navin in navins:
                 if bullet.rect.colliderect(navin.rect):
-                    dano -= 10
+                    dano -= 100
                     bullets.remove(bullet)
 
         #Desenho player, fundo, bullet
@@ -192,8 +203,11 @@ def main():
             screen.blit(projec.image, projec.rect)
         for nav in navins:
             screen.blit(nav.image, nav.rect)
+        if healthbar!=None:
+            healthbar.printar(screen)
         for vidas in vida:
             pygame.draw.rect(screen, RED, vidas.rect)
+        
 
         #Score (ADD VIDA, ARMA, VIDA NAVIN)
         font = pygame.font.Font(None, 36)

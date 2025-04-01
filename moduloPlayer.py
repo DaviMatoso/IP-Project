@@ -11,3 +11,4 @@ class Player:
         self.rect.x += dx * player_speed    # Player andar em x
         self.rect.y += dy * player_speed    # Player andar em y
         self.rect.clamp_ip(150, 291, 1140, 453)  # Mantém o jogador dentro do local "andavel"
+        self.rect.clamp_ip(15, 291, 1140, 453)  # Mantém o jogador dentro do local "andavel"
