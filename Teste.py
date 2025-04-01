@@ -4,6 +4,7 @@ import random
 from moduloConfig import *
 from moduloPlayer import Player
 from moduloBarraDeVida import barraDeVida
+from moduloDesenhoVida import healthBar
 from moduloNAVIN import NAVIN
 from moduloEnemy import Enemy
 from moduloProjetil import Projetil
@@ -54,6 +55,7 @@ def fase1():
     background = pygame.image.load("spritesGT/Map_1.png")
     background = pygame.transform.scale(background, (WIDTH, HEIGHT))  # Ajustar o tamanho da imagem do fundo
 
+
     clock = pygame.time.Clock()
     player = Player(player_size2, player_size, WIDTH, HEIGHT)
     dano = 3000     #vida do navin
@@ -61,6 +63,7 @@ def fase1():
     direcaoNavin = pygame.math.Vector2(1, 0)  # Start moving right
     velocidadeNavin = 5
     larguraNavin = 267
+    health_bar = healthBar()
     #Lista de objetos moviveis gerados
     bullets = []
     enemies = []
@@ -161,10 +164,11 @@ def fase1():
 
         #Desenho player, fundo, bullet
         screen.blit(background, (0, 0))  #
-        screen.blit(player.image, player.rect)  
+        screen.blit(player.image, player.rect)
         printar=desenhar(screen, BLACK, RED, WHITE, bullets, enemies, navins, proj, vida, listaBlocos, player)
         printar
-        pygame.draw.rect(screen, (255, 0, 0), navins[0].rect, 2)
+        health_bar.printar(screen)
+        #pygame.draw.rect(screen, (255, 0, 0), navins[0].rect, 2)
 
         #Score (ADD VIDA, ARMA, VIDA NAVIN)
         font = pygame.font.Font(None, 36)
