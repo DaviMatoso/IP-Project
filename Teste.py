@@ -57,6 +57,10 @@ def fase1():
     clock = pygame.time.Clock()
     player = Player(player_size2, player_size, WIDTH, HEIGHT)
     dano = 3000     #vida do navin
+    posicaoNavin = pygame.math.Vector2(720, 150)
+    direcaoNavin = pygame.math.Vector2(1, 0)  # Start moving right
+    velocidadeNavin = 5
+    larguraNavin = 267
     #Lista de objetos moviveis gerados
     bullets = []
     enemies = []
@@ -106,10 +110,17 @@ def fase1():
         armaAtual.bullet_movement(bullets)
 
         #Spawn nivan (NÃO TOQUE NESSA LIST)
+        posicaoNavin += direcaoNavin * velocidadeNavin
+        extremoEsquerdoNavin = posicaoNavin.x - (larguraNavin / 2)
+        extremoDireitoNavin = posicaoNavin.x + (larguraNavin / 2)
+        if extremoEsquerdoNavin < 0 or extremoDireitoNavin > WIDTH:
+            direcaoNavin.x *= -1
+        
         navins = []
         vida =[]
         if dano > 0:
             navins.append(NAVIN(numeroNavin%3, navinLista))
+            navins[0].rect.center = (int(posicaoNavin.x), int(posicaoNavin.y))
             vida.append(barraDeVida(3000-dano))
             #Spawn projetil
             if random.randint(1, 3) == 1:
@@ -153,6 +164,7 @@ def fase1():
         screen.blit(player.image, player.rect)  
         printar=desenhar(screen, BLACK, RED, WHITE, bullets, enemies, navins, proj, vida, listaBlocos, player)
         printar
+        pygame.draw.rect(screen, (255, 0, 0), navins[0].rect, 2)
 
         #Score (ADD VIDA, ARMA, VIDA NAVIN)
         font = pygame.font.Font(None, 36)
