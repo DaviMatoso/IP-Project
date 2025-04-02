@@ -1,39 +1,37 @@
-#Imports
 import pygame
-from moduloNAVIN import Navin
+from os.path import join
+from os import walk
 
-#Comando pygame (NAO TOQUE)
-pygame.init()
+class Navin(pygame.sprite.Sprite):
+    def __init__(self, pos):
+        super().__init__()
+        self.carregarImagens()
+        self.state, self.frame_index = 'idle', 0
+        self.image = pygame.image.load(join('spritesGT', 'navin', 'idle', '0.png')).convert_alpha()
+        self.rect = self.image.get_frect(center = pos)
 
-#Tela 
-WIDTH, HEIGHT = 1440, 810
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Top-Down Shooter")
-clock = pygame.time.Clock()
-running = True
+        self.pos = pygame.Vector2(pos)
+        self.direcaoNavin = pygame.Vector2(1, 0)
+        self.velocidadeNavin = 8
 
-navin = Navin((720, 150))
+    def carregarImagens(self):
+        self.frames = {'idle': [], 'ataque': []}
 
-# Main game loop
-while running:
+        for state in self.frames.keys():
+            for folder_path, sub_folders, file_names in walk(join('spritesGT', 'navin', state)):
+                if file_names:
+                    for file_name in sorted(file_names, key = lambda name: int(name.split('.')[0])):
+                        full_path = join(folder_path, file_name)
+                        surf = pygame.image.load(full_path).convert_alpha()
+                        self.frames[state].append(surf)
 
 
-    clock.tick(30)
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-    # Carregar a imagem de fundo
-    background = pygame.image.load("spritesGT/Map_1.png")
-    background = pygame.transform.scale(background, (WIDTH, HEIGHT))  # Ajustar o tamanho da imagem do fundo
+    def movement(self, screen_width):
+        self.rect.x += self.direcaoNavin.x * self.velocidadeNavin
+        if self.rect.right > screen_width or self.rect.left < 0:
+            self.direcaoNavin *= -1
 
-    navin.movement(WIDTH)
-    navin.animation()
+    def animation(self):
 
-    screen.blit(background, (0, 0))
-    screen.blit(navin.image, navin.rect)
-
-    #Comando pygame (NAO TOQUE)
-    pygame.display.flip()
-    clock.tick(30)
-
-pygame.quit()
+        self.frame_index += 0.2
+        self.image = self.frames[self.state][int(self.frame_index) % len(self.frames[self.state])]
