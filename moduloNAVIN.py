@@ -1,5 +1,6 @@
 import pygame
 import random
+from moduloAtaquesNavin import Ability
 from os.path import join
 from os import walk
 
@@ -14,6 +15,7 @@ class Navin(pygame.sprite.Sprite):
         self.pos = pygame.Vector2(pos)
         self.direcaoNavin = pygame.Vector2(1, 0)
         self.velocidadeNavin = 8
+        self.ability = None
 
         self.attack_duration = 1500
         self.last_attack_time = pygame.time.get_ticks()
@@ -41,7 +43,7 @@ class Navin(pygame.sprite.Sprite):
         self.frame_index += 0.2
         self.image = self.frames[self.state][int(self.frame_index) % len(self.frames[self.state])]
 
-    def attack(self):
+    def attack(self, screen):
         current_time = pygame.time.get_ticks()
         # If idle and it's time to attack, switch state and record the start time.
         if self.state == 'idle' and current_time - self.last_attack_time >= 4000:
@@ -59,3 +61,6 @@ class Navin(pygame.sprite.Sprite):
                 self.state = 'idle'
                 self.last_attack_time = current_time
                 self.rect = self.original_rect.copy()
+                golpe = Ability(self.rect.midtop)
+                screen.blit(golpe.image, golpe.rect)
+                print("attack blit")

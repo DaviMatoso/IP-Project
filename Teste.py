@@ -1,8 +1,8 @@
 #Imports
 import pygame
 from moduloNAVIN import Navin
+from moduloAtaquesNavin import Ability
 
-#Comando pygame (NAO TOQUE)
 pygame.init()
 
 #Tela 
@@ -13,6 +13,7 @@ clock = pygame.time.Clock()
 running = True
 
 navin = Navin((720, 150))
+golpe = Ability(rect.midtop)
 
 # Main game loop
 while running:
@@ -22,18 +23,21 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
     # Carregar a imagem de fundo
     background = pygame.image.load("spritesGT/Map_1.png")
     background = pygame.transform.scale(background, (WIDTH, HEIGHT))  # Ajustar o tamanho da imagem do fundo
 
-    navin.movement(WIDTH)
-    navin.animation()
-    navin.attack()
-
     screen.blit(background, (0, 0))
     screen.blit(navin.image, navin.rect)
 
-    #Comando pygame (NAO TOQUE)
+    navin.movement(WIDTH)
+    navin.animation()
+    navin.attack(screen)
+
+    if navin.ability:
+        screen.blit(navin.ability.image, navin.ability.rect)
+
     pygame.display.flip()
     clock.tick(30)
 
