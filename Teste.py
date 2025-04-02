@@ -28,6 +28,7 @@ while running:
 
     navin.movement(WIDTH)
     navin.animation()
+    navin.attack()
 
     screen.blit(background, (0, 0))
     screen.blit(navin.image, navin.rect)
