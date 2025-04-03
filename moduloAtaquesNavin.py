@@ -8,8 +8,6 @@ class Ability(pygame.sprite.Sprite):
         self.image = pygame.image.load(naturaisLista[random.randint(0, 9)]).convert_alpha()
         self.image = pygame.transform.scale(self.image, (30, 30))
         self.rect = self.image.get_frect(midbottom = pos)
-        print("Ability position:", self.rect)
-        print("Total sprites:", len(sprite_groups))
 
     def shoot(pos, sprite_groups, num_projectiles = 7, spacing_vertical = 40, spacing_horizontal = 20):
         # Vertical line (|)
