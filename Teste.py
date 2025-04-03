@@ -2,18 +2,18 @@
 import pygame
 from moduloNAVIN import Navin
 from moduloAtaquesNavin import Ability
+from moduloConfig import *
 
 pygame.init()
 
 #Tela 
-WIDTH, HEIGHT = 1440, 810
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Top-Down Shooter")
 clock = pygame.time.Clock()
+all_sprites = pygame.sprite.Group()
 running = True
 
-navin = Navin((720, 150))
-golpe = Ability(rect.midtop)
+navin = Navin((720, 150), all_sprites)
 
 # Main game loop
 while running:
@@ -29,14 +29,13 @@ while running:
     background = pygame.transform.scale(background, (WIDTH, HEIGHT))  # Ajustar o tamanho da imagem do fundo
 
     screen.blit(background, (0, 0))
-    screen.blit(navin.image, navin.rect)
 
     navin.movement(WIDTH)
     navin.animation()
-    navin.attack(screen)
+    navin.attack()
 
-    if navin.ability:
-        screen.blit(navin.ability.image, navin.ability.rect)
+    all_sprites.update()
+    all_sprites.draw(screen)
 
     pygame.display.flip()
     clock.tick(30)

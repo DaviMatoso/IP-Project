@@ -5,9 +5,10 @@ from os.path import join
 from os import walk
 
 class Navin(pygame.sprite.Sprite):
-    def __init__(self, pos):
-        super().__init__()
+    def __init__(self, pos, sprite_groups):
+        super().__init__(sprite_groups)
         self.carregarImagens()
+        self.sprite_groups = sprite_groups
         self.state, self.frame_index = 'idle', 0
         self.image = pygame.image.load(join('spritesGT', 'navin', 'idle', '0.png')).convert_alpha()
         self.rect = self.image.get_frect(center = pos)
@@ -15,7 +16,6 @@ class Navin(pygame.sprite.Sprite):
         self.pos = pygame.Vector2(pos)
         self.direcaoNavin = pygame.Vector2(1, 0)
         self.velocidadeNavin = 8
-        self.ability = None
 
         self.attack_duration = 1500
         self.last_attack_time = pygame.time.get_ticks()
@@ -43,24 +43,21 @@ class Navin(pygame.sprite.Sprite):
         self.frame_index += 0.2
         self.image = self.frames[self.state][int(self.frame_index) % len(self.frames[self.state])]
 
-    def attack(self, screen):
+    def attack(self):
         current_time = pygame.time.get_ticks()
-        # If idle and it's time to attack, switch state and record the start time.
+
         if self.state == 'idle' and current_time - self.last_attack_time >= 4000:
             self.state = 'ataque'
             self.original_rect = self.rect.copy()
             self.attack_start_time = current_time
 
         if self.state == 'ataque':
-            shake_offset = 5  # Maximum pixels to shake in any direction.
+            shake_offset = 5
             self.rect.x = self.original_rect.x + random.randint(-shake_offset, shake_offset)
             self.rect.y = self.original_rect.y + random.randint(-shake_offset, shake_offset)
             
-            # End the attack (shake) after the duration has passed.
             if current_time - self.attack_start_time >= self.attack_duration:
                 self.state = 'idle'
                 self.last_attack_time = current_time
                 self.rect = self.original_rect.copy()
-                golpe = Ability(self.rect.midtop)
-                screen.blit(golpe.image, golpe.rect)
-                print("attack blit")
+                Ability.shoot(self.rect.midtop, self.sprite_groups)
